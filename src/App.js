@@ -6,50 +6,61 @@ import Store from './Store';
 
 export default class App extends React.Component {
     constructor(props) {
-      super(props);
-      this.earnOnClick=this.earnOnClick.bind(this);
-      this.spendOnClick=this.spendOnClick.bind(this);
-      this.state = { 
-        money: 0,
-        moneyPerClick: 1,
-      };
+        super(props);
+        this.earnOnClick = this.earnOnClick.bind(this);
+        this.spendOnClick = this.spendOnClick.bind(this);
+        this.state = {
+            money: 0,
+            moneyPerClick: 1,
+            gain: 0
+        };
     }
 
-    earnOnClick(){
-      const {money, moneyPerClick} = this.state;
-      this.setState({money: money+moneyPerClick});
+    earnOnClick() {
+        const {money, moneyPerClick} = this.state;
+        this.setState({
+            money: money + moneyPerClick
+        });
     }
 
-    spendOnClick(cost){
-      const{money, moneyPerClick} = this.state;
-      if(money-cost >=0){
-        this.setState({moneyPerClick: moneyPerClick+1});
-        this.setState({money: money-cost});
-      } else {
-       alert("You're broke!")
+    spendOnClick(cost, cps) {
+        var {money, moneyPerClick, gain} = this.state;
+        if (money - cost >= 0) {
+            this.setState({
+                money: money - cost, moneyPerClick :  moneyPerClick += cps
+            });
+            console.log(money, moneyPerClick, cps)
+            this.setState({money: money=AutoClicker(money,cps)})
+        } else {
+            alert("You're broke!")
+        }  
+          
+          
+        function  AutoClicker(money, cps){
+          var tId = setInterval(() => {money += cps}, 10000)
+          console.log(tId)
+        return tId
       }
-      
+
     }
+  
+      
+  
+    
 
-    render(){
-      const {money} = this.state
-      return (
-        <div className="App">
-        <h1 className="">Cookie Clicker</h1>
-        <p className="font-serif ... text-yellow-300	">
-            The quick brown fox jumps over the lazy dog.
-        </p>
-        <div className="flex justify-between gap-3">
-         
-           <CookieView money={money} onClick= {this.earnOnClick}/>
-           <Store spendOnClick = {this.spendOnClick} />
-
-        </div>
+    render() {
+        var {money, moneyPerClick} = this.state
         
-    </div>
-      )
+        return (
+            <div className="App">
+                <h1 className="App-header ">Cookie Clicker</h1>
+                <div className="flex justify-between gap-3 py-20">
+
+                    <CookieView money={money} onClick={this.earnOnClick} />
+                    <Store spendOnClick={this.spendOnClick} />
+                </div>
+
+            </div>
+        )
     }
 }
-
-
-
