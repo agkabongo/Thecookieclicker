@@ -58,6 +58,7 @@ export default class App extends React.Component {
 
                     <CookieView money={money} onClick={this.earnOnClick} />
                     <Store spendOnClick={this.spendOnClick} />
+                    {AutoClicker()}
                 </div>
 
             </div>
